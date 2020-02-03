@@ -1,0 +1,50 @@
+# required variables:
+#   IMAGE_NAME
+#     The docker image name
+#     Example: jamesits/vyos-builder
+#   BUILD_SCRIPT_BRANCH
+#     A branch of https://github.com/vyos/vyos-build
+#     Available value: crux, current
+#   BUILD_BY
+#   BUILD_TYPE
+#     image type, release or development
+#   BUILD_VERSION
+
+name: $(BUILD_SCRIPT_BRANCH)-$(BUILD_TYPE)-$(Date:yyyyMMdd).$(Rev:r)
+variables:
+  DEBIAN_FRONTEND: "noninteractive"
+trigger:
+  batch: false
+  branches:
+    include: [ "master" ]
+  paths:
+    include: [ "/vyos/*" ]
+    exclude: [ "README.md" ]
+
+jobs:
+  - job: image
+    displayName: "build image"
+    pool:
+      vmImage: "ubuntu-16.04"
+    workspace:
+      clean: all
+    timeoutInMinutes: 120
+
+    strategy:
+      matrix:
+        "1.12.2":
+          REVISION: '1.12.2'
+
+    steps:
+    - bash: |
+        sudo apt-get -y update
+        sudo apt-get -y install git openjdk-8-jre-headless
+      displayName: 'install deps'
+
+    - bash: 'sudo -E ./build.sh'
+      displayName: 'image build'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        artifactName: '$(REVISION)'
