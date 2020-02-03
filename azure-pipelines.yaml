@@ -6,7 +6,6 @@ trigger:
   branches:
     include: [ "master" ]
   paths:
-    include: [ "/vyos/*" ]
     exclude: [ "README.md" ]
 
 jobs:
