@@ -1,5 +1,5 @@
 #!/bin/bash
-set -Eeuxo pipefail
+set -x
 
 REVISION=${REVISION:-"latest"}
 
