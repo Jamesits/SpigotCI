@@ -19,6 +19,10 @@ jobs:
 
     strategy:
       matrix:
+        "latest":
+          REVISION: 'latest'
+        "1.15.2":
+          REVISION: '1.15.2'
         "1.12.2":
           REVISION: '1.12.2'
 
@@ -31,7 +35,7 @@ jobs:
     - bash: |
         chmod +x ./build.sh
         ./build.sh
-      displayName: 'image build'
+      displayName: 'build'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
