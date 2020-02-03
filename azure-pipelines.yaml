@@ -28,7 +28,9 @@ jobs:
         sudo apt-get -y install git openjdk-8-jre-headless
       displayName: 'install deps'
 
-    - bash: 'sudo -E ./build.sh'
+    - bash: |
+        chmod +x ./build.sh
+        ./build.sh
       displayName: 'image build'
 
     - task: PublishBuildArtifacts@1
