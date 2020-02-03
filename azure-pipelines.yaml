@@ -25,6 +25,8 @@ jobs:
           REVISION: '1.15.2'
         "1.12.2":
           REVISION: '1.12.2'
+        "1.8":
+          REVISION: '1.8'
 
     steps:
     - bash: |
